@@ -1,32 +1,41 @@
 package com.andrewwalkerscotland;
 
-import io.restassured.http.ContentType;
-
-import io.restassured.response.ValidatableResponse;
-
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import org.apache.http.HttpStatus;
-
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 
 public class API_GetDefinitions {
 
-    private ValidatableResponse validatableResponse;
+    private Response response;
 
-    @Given("I send request to the media url")
-    public void iSendRequestToTheMediaUrl() {
-        String endpoint = "http://dummy.restapiexample.com/api/v1/employee/1";
-        validatableResponse =
-            given().contentType(ContentType.JSON)
-            .when().get(endpoint)
-            .then();
+    @Given("I send a request to the media endpoint")
+    public void getOttPlatformMedia() {
+        String endpoint = "https://testapi.io/api/ottplatform/media";
+        response = given()
+            .contentType(ContentType.JSON)
+            .get(endpoint);
     }
 
-    @Then("the response will return ok status")
-    public void theResponseWillReturnStatus() {
-        validatableResponse.log().ifValidationFails().statusCode(HttpStatus.SC_OK);
+    @Then("the response will have status {int}")
+    public void verifyResponseStatusCode(int expectedStatusCode) {
+        assertThat(response.getStatusCode())
+            .as("Response code was not 200 OK")
+            .isEqualTo(expectedStatusCode);
+    }
+
+    @And("the response time will be less than {int} second")
+    public void theResponseTimeWillBeLessThanSecond(int maxResponseTimeSeconds) {
+        long maxResponseTimeMillis = maxResponseTimeSeconds * 1000L;
+        StringBuilder failureMessage = new StringBuilder("Response took longer than ")
+            .append(maxResponseTimeSeconds)
+            .append(" seconds");
+        assertThat(response.getTime())
+            .as(failureMessage.toString())
+            .isLessThan(maxResponseTimeMillis);
     }
 }
