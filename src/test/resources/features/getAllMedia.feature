@@ -8,6 +8,11 @@ Feature: Get OTT Platform media and validate response details
     Then the response will have status 200
     And the response time will be less than 1 second(s)
 
+  @simpleCheck
+  Scenario: Get request to Media endpoint will have date header in response
+    Given I send a request to the media endpoint
+    Then the response will have date header
+
   @checkContents
   Scenario: Response Body items must always have id field and be of segment type music
     Given I send a request to the media endpoint

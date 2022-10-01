@@ -4,7 +4,9 @@ import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.filter.NotFilter.not;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import io.cucumber.java.en.Given;
@@ -26,6 +28,13 @@ public class API_GetDefinitions {
         response = given()
             .contentType(ContentType.JSON)
             .get(endpoint);
+    }
+
+    @Then("the response will have date header")
+    public void theResponseWillHaveDateHeader() {
+        assertThat(response.getHeader("date"))
+            .as("Date header is not included in response.")
+            .isEqualTo("Fri, 21 May");
     }
 
     @Then("the response will have status {int}")
