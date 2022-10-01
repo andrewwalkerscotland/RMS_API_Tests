@@ -2,11 +2,11 @@ package com.andrewwalkerscotland;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.filter.NotFilter.not;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -60,5 +60,12 @@ public class API_GetDefinitions {
         assertThat(mediaItems)
             .as("At least one data item has a null Id field.")
             .extracting("id").doesNotContainNull();
+    }
+
+    @Then("the Segment Type on every track will be music")
+    public void theSegmentTypeOnEveryTrackWillBeMusic() {
+        assertThat(mediaItems)
+            .as("At least one data item has a segment type not set to music.")
+            .filteredOn("segment_type", not("music")).isEmpty();
     }
 }

@@ -13,3 +13,4 @@ Feature: Get OTT Platform media and validate response details
     Given I send a request to the media endpoint
     When I examine the data items in the response
     Then the id field on each item will have a value
+    And the Segment Type on every track will be music
