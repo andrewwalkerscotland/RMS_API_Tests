@@ -20,3 +20,9 @@ Feature: Get OTT Platform media and validate response details
     Given I send a request to the media endpoint
     When I examine the data items in the response
     Then the primary title field on each item will have a value
+
+  @checkContents
+  Scenario: Response Body items must only have one track that has now playing as true
+    Given I send a request to the media endpoint
+    When I examine the data items in the response
+    Then the now playing field will be true on only one item

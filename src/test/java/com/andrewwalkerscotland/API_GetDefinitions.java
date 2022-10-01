@@ -80,4 +80,12 @@ public class API_GetDefinitions {
             .extracting("title_list")
             .extracting("primary").doesNotContainNull();
     }
+
+    @Then("the now playing field will be true on only one item")
+    public void theNowPlayingFieldWillBeTrueOnOnlyOneItem() {
+        assertThat(mediaItems)
+            .as("More than one item has now playing field set to true.")
+            .extracting("offset")
+            .extracting("now_playing").containsOnlyOnce(true);
+    }
 }
