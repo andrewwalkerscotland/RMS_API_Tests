@@ -10,7 +10,7 @@ import io.cucumber.junit.CucumberOptions;
 @CucumberOptions(plugin = "pretty",
     features = {"src/test/resources/features/getAllMedia.feature"},
     glue = {"com.andrewwalkerscotland"},
-    tags = "@validateMedia"
+    tags = "@simpleCheck or @checkContents"
 )
 
 public class CucumberTestRunner {
