@@ -68,4 +68,16 @@ public class API_GetDefinitions {
             .as("At least one data item has a segment type not set to music.")
             .filteredOn("segment_type", not("music")).isEmpty();
     }
+
+    @Then("the primary title field on each item will have a value")
+    public void thePrimaryTitleFieldOnEachItemWillHaveAValue() {
+        assertThat(mediaItems)
+            .as("At least one data item has an empty primary title field.")
+            .extracting("title_list")
+            .extracting("primary").doesNotContain("");
+        assertThat(mediaItems)
+            .as("At least one data item has a null primary title field.")
+            .extracting("title_list")
+            .extracting("primary").doesNotContainNull();
+    }
 }
